@@ -26,7 +26,7 @@ public class UserAccountService {
      * @param id
      * @return
      */
-    public UserAccountDto getUser(Integer id) throws Exception {
+    public UserAccountDto getUser(Integer id) throws UserNotFoundException {
         Optional<UserAccount> userAccount = userAccountRepository.findById(id);
         UserAccountDto userAccountDto;
         if (userAccount.isPresent()) {
