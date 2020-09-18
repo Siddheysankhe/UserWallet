@@ -31,27 +31,6 @@ public abstract class BaseEntity<PK extends Serializable> implements GenericEnti
         this.updatedAt = updatedAt;
     }
 
-    @Override
-    public long getCreatedBy() {
-        return createdBy;
-    }
-
-    @Override
-    public void setCreatedBy(long createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    @Override
-    public long getUpdatedBy() {
-        return updatedBy;
-    }
-
-    @Override
-    public void setUpdatedBy(long updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-
     @Column (name = "created_at")
     @CreationTimestamp
     private Date createdAt;
@@ -59,12 +38,6 @@ public abstract class BaseEntity<PK extends Serializable> implements GenericEnti
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Date updatedAt;
-
-    @Column (name = "created_by")
-    private long createdBy;
-
-    @Column (name = "updated_by")
-    private long updatedBy;
 
     @Column(name = "deleted")
     private int deleted;

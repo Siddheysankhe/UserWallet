@@ -3,6 +3,7 @@ package com.example.UserWallet.entity;
 import com.sun.istack.NotNull;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -14,8 +15,10 @@ import java.util.Set;
 public class UserAccount extends BaseEntityIntID {
 
     @NotNull
+    @Column(name = "user_name")
     private String userName;
 
+    @Column(name = "email")
     private String email;
 
     @OneToMany(mappedBy = "userAccount", fetch = FetchType.EAGER)

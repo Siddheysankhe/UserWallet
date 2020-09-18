@@ -17,12 +17,4 @@ public interface GenericEntity<PK extends Serializable> extends Serializable {
 
     void setUpdatedAt(Date updatedAt);
 
-    long getCreatedBy();
-
-    void setCreatedBy(long createdBy);
-
-    long getUpdatedBy();
-
-    void setUpdatedBy(long updatedBy);
-
 }
