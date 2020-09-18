@@ -1,4 +1,7 @@
 package com.example.UserWallet.repository;
 
-public class TransactionRepository {
+import com.example.UserWallet.entity.Transaction;
+import org.springframework.data.repository.CrudRepository;
+
+public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
 }

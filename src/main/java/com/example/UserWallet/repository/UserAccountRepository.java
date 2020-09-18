@@ -1,4 +1,7 @@
 package com.example.UserWallet.repository;
 
-public class UserAccountRepository {
+import com.example.UserWallet.entity.UserAccount;
+import org.springframework.data.repository.CrudRepository;
+
+public interface UserAccountRepository extends CrudRepository<UserAccount, Integer> {
 }
