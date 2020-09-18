@@ -1,7 +1,6 @@
 package com.example.UserWallet.controller;
 
 import com.example.UserWallet.dtos.UserAccountDto;
-import com.example.UserWallet.entity.UserAccount;
 import com.example.UserWallet.exceptions.UserNotFoundException;
 import com.example.UserWallet.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;

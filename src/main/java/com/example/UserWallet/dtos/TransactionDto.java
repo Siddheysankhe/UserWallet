@@ -12,7 +12,7 @@ public class TransactionDto {
     private BigDecimal amount;
     private String details;
     private Date transactionDate;
-    private Long transactionReference;
+    private String transactionReference;
     private TransactionTypeEnum transactionTypeEnum;
 
     public Integer getId() {
@@ -55,11 +55,11 @@ public class TransactionDto {
         this.transactionDate = transactionDate;
     }
 
-    public Long getTransactionReference() {
+    public String getTransactionReference() {
         return transactionReference;
     }
 
-    public void setTransactionReference(Long transactionReference) {
+    public void setTransactionReference(String transactionReference) {
         this.transactionReference = transactionReference;
     }
 

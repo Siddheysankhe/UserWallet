@@ -1,7 +1,10 @@
 package com.example.UserWallet.service;
 
 import com.example.UserWallet.converter.TransactionConverter;
+import com.example.UserWallet.dtos.TransactionDto;
+import com.example.UserWallet.dtos.UserAccountDto;
 import com.example.UserWallet.entity.Transaction;
+import com.example.UserWallet.entity.UserAccount;
 import com.example.UserWallet.enums.TransactionTypeEnum;
 import com.example.UserWallet.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,9 @@ public class TransactionService {
 
     @Autowired
     private TransactionConverter transactionConverter;
+
+    @Autowired
+    private UserAccountService userAccountService;
 
     @Transactional(rollbackFor = RuntimeException.class)
     public Transaction createTransaction(Transaction transaction) throws Exception {
@@ -56,4 +62,24 @@ public class TransactionService {
         return balance;
     }
 
+    /**
+     *
+     * @param userAccountId
+     * @param transactionDto
+     * @return
+     */
+    @Transactional(rollbackFor = RuntimeException.class)
+    public TransactionDto addMoney(Integer userAccountId, TransactionDto transactionDto) throws Exception {
+        UserAccountDto userAccount = userAccountService.getUser(userAccountId);
+        transactionDto.setUserAccountId(userAccount.getId());
+
+        if (transactionDto.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+            throw new Exception("Cannot Add Negative amount in wallet");
+        }
+
+        Transaction transaction = transactionConverter.convertModelToEntity(transactionDto);
+        transaction = createTransaction(transaction);
+
+        return transactionConverter.convertEntityToModel(transaction);
+    }
 }

@@ -28,7 +28,7 @@ public class Transaction extends BaseEntityIntID {
 
     @NotNull
     @Column(name = "transaction_reference")
-    private Long transactionReference;
+    private String transactionReference;
 
     @NotNull
     @Enumerated(value = EnumType.STRING)
@@ -67,11 +67,11 @@ public class Transaction extends BaseEntityIntID {
         this.transactionDate = transactionDate;
     }
 
-    public Long getTransactionReference() {
+    public String getTransactionReference() {
         return transactionReference;
     }
 
-    public void setTransactionReference(Long transactionReference) {
+    public void setTransactionReference(String transactionReference) {
         this.transactionReference = transactionReference;
     }
 

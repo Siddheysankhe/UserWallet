@@ -1,7 +1,6 @@
 package com.example.UserWallet.controller;
 
 import com.example.UserWallet.dtos.TransactionDto;
-import com.example.UserWallet.entity.Transaction;
 import com.example.UserWallet.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +15,14 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping("/add/{id}")
-    public ResponseEntity addMoney(@PathVariable("id") Long userAccountId, @RequestBody TransactionDto transactionDto) {
-        //Transaction
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+    public ResponseEntity addMoney(@PathVariable("id") Integer userAccountId, @RequestBody TransactionDto transactionDto) {
+        TransactionDto createdTransaction;
+        try {
+            createdTransaction = transactionService.addMoney(userAccountId, transactionDto);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(createdTransaction, HttpStatus.OK);
     }
 
 }
