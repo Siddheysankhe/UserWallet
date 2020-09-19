@@ -14,10 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class TransactionService {
@@ -170,6 +167,29 @@ public class TransactionService {
             TransactionDto transactionDto = transactionConverter.convertEntityToModel(transaction);
             transactionDtoList.add(transactionDto);
         }
+        return transactionDtoList;
+    }
+
+    /**
+     *
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public List<TransactionDto> getUserPassbook(Integer userId) throws Exception {
+        List<Transaction> transactionsForUser = transactionRepository.getAllByUserAccount(userId);
+
+        if (CollectionUtils.isEmpty(transactionsForUser)) {
+            throw new Exception("No Transaction found with User Id :" + userId);
+        }
+
+        List<TransactionDto> transactionDtoList = new ArrayList<>();
+        for (Transaction transaction : transactionsForUser) {
+            TransactionDto transactionDto = transactionConverter.convertEntityToModel(transaction);
+            transactionDtoList.add(transactionDto);
+        }
+
+        transactionDtoList.sort(Comparator.comparing(TransactionDto::getTransactionDate).reversed());
         return transactionDtoList;
     }
 
