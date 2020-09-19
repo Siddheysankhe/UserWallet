@@ -110,6 +110,9 @@ public class TransactionService {
         fromUserTransaction = createTransaction(fromUserTransaction);
         transactionDtoList.add(transactionConverter.convertEntityToModel(fromUserTransaction));
 
+        //updating transaction reference
+        transactionDto.setTransactionReference(fromUserTransaction.getTransactionReference());
+
         //creating CREDIT transaction
         transactionDto.setUserAccountId(toUserAccount.getId());
         transactionDto.setTransactionTypeEnum(TransactionTypeEnum.CREDIT);

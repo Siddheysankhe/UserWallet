@@ -30,15 +30,15 @@ public class TransactionController {
     }
 
     @PostMapping("/transfer/{toUser}/from/{fromUser}")
-    public ResponseEntity transferMoney(@PathVariable("toUser") Long toUserAccountId,
-                                        @PathVariable("fromUser") Long fromUserAccountId, @RequestBody TransactionDto transactionDto) {
+    public ResponseEntity transferMoney(@PathVariable("toUser") Integer toUserAccountId,
+                                        @PathVariable("fromUser") Integer fromUserAccountId, @RequestBody TransactionDto transactionDto) {
         List<TransactionDto> createdTransactions;
         try {
             createdTransactions = transactionService.transfer(transactionDto, toUserAccountId, fromUserAccountId);
         } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<List<TransactionDto>>(createdTransactions, HttpStatus.OK);
+        return new ResponseEntity<>(createdTransactions, HttpStatus.OK);
     }
 
 }
