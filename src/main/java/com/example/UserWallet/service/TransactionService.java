@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -81,5 +82,41 @@ public class TransactionService {
         transaction = createTransaction(transaction);
 
         return transactionConverter.convertEntityToModel(transaction);
+    }
+
+    /**
+     *
+     * @param transactionDto
+     * @param toUserAccountId
+     * @param fromUserAccountId
+     * @return
+     * @throws Exception
+     */
+    public List<TransactionDto> transfer(TransactionDto transactionDto, Integer toUserAccountId,
+                                         Integer fromUserAccountId) throws Exception {
+        UserAccountDto fromUserAccount = userAccountService.getUser(fromUserAccountId);
+        UserAccountDto toUserAccount = userAccountService.getUser(toUserAccountId);
+
+        if (transactionDto.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+            throw new Exception("Cannot Send Negative amount in wallet");
+        }
+
+        List<TransactionDto> transactionDtoList = new ArrayList<>();
+
+        //creating DEBIT transaction
+        transactionDto.setUserAccountId(fromUserAccount.getId());
+        transactionDto.setTransactionTypeEnum(TransactionTypeEnum.DEBIT);
+        Transaction fromUserTransaction = transactionConverter.convertModelToEntity(transactionDto);
+        fromUserTransaction = createTransaction(fromUserTransaction);
+        transactionDtoList.add(transactionConverter.convertEntityToModel(fromUserTransaction));
+
+        //creating CREDIT transaction
+        transactionDto.setUserAccountId(toUserAccount.getId());
+        transactionDto.setTransactionTypeEnum(TransactionTypeEnum.CREDIT);
+        Transaction destinationUserTransaction = transactionConverter.convertModelToEntity(transactionDto);
+        destinationUserTransaction = createTransaction(destinationUserTransaction);
+        transactionDtoList.add(transactionConverter.convertEntityToModel(destinationUserTransaction));
+
+        return transactionDtoList;
     }
 }
