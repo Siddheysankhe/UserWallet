@@ -1,5 +1,6 @@
 package com.example.UserWallet.controller;
 
+import com.example.UserWallet.dtos.MoneyTransferDto;
 import com.example.UserWallet.dtos.TransactionDto;
 import com.example.UserWallet.entity.Transaction;
 import com.example.UserWallet.exceptions.UserNotFoundException;
@@ -31,10 +32,11 @@ public class TransactionController {
 
     @PostMapping("/transfer/{toUser}/from/{fromUser}")
     public ResponseEntity transferMoney(@PathVariable("toUser") Integer toUserAccountId,
-                                        @PathVariable("fromUser") Integer fromUserAccountId, @RequestBody TransactionDto transactionDto) {
+                                        @PathVariable("fromUser") Integer fromUserAccountId,
+                                        @RequestBody MoneyTransferDto moneyTransferDto) {
         List<TransactionDto> createdTransactions;
         try {
-            createdTransactions = transactionService.transfer(transactionDto, toUserAccountId, fromUserAccountId);
+            createdTransactions = transactionService.transfer(moneyTransferDto, toUserAccountId, fromUserAccountId);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
