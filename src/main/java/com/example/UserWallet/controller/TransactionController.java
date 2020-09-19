@@ -2,8 +2,6 @@ package com.example.UserWallet.controller;
 
 import com.example.UserWallet.dtos.MoneyTransferDto;
 import com.example.UserWallet.dtos.TransactionDto;
-import com.example.UserWallet.entity.Transaction;
-import com.example.UserWallet.exceptions.UserNotFoundException;
 import com.example.UserWallet.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +23,7 @@ public class TransactionController {
         try {
             createdTransaction = transactionService.addMoney(userAccountId, transactionDto);
         } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(createdTransaction, HttpStatus.OK);
     }
@@ -41,6 +39,17 @@ public class TransactionController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(createdTransactions, HttpStatus.OK);
+    }
+
+    @GetMapping("/status/{referenceId}")
+    private ResponseEntity getStatusOfTransaction(@PathVariable("referenceId") String referenceId) {
+        List<TransactionDto> transactionDtoList;
+        try {
+            transactionDtoList = transactionService.getStatusOfTransaction(referenceId);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(transactionDtoList, HttpStatus.OK);
     }
 
 }

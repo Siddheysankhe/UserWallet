@@ -11,6 +11,7 @@ import com.example.UserWallet.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -148,6 +149,27 @@ public class TransactionService {
         destinationUserTransaction = createTransaction(destinationUserTransaction);
         transactionDtoList.add(transactionConverter.convertEntityToModel(destinationUserTransaction));
 
+        return transactionDtoList;
+    }
+
+    /**
+     *
+     * @param referenceId
+     * @return
+     * @throws Exception
+     */
+    public List<TransactionDto> getStatusOfTransaction(String referenceId) throws Exception {
+        List<Transaction> transactions = transactionRepository.getAllByTransactionReference(referenceId);
+
+        if (CollectionUtils.isEmpty(transactions)) {
+            throw new Exception("No Transaction found with reference Id :" + referenceId);
+        }
+
+        List<TransactionDto> transactionDtoList = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            TransactionDto transactionDto = transactionConverter.convertEntityToModel(transaction);
+            transactionDtoList.add(transactionDto);
+        }
         return transactionDtoList;
     }
 

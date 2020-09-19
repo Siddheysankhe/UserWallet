@@ -10,4 +10,6 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
 
     @Query(nativeQuery = true, value = "select * from transaction where user_account_id = ?")
     List<Transaction> getAllByUserAccount(Integer userId);
+
+    List<Transaction> getAllByTransactionReference(String referenceId);
 }
